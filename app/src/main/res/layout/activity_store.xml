@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.StoreActivity">
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:id="@+id/address_view" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/fragment_container"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:layout_below="@id/address_view"
+        android:layout_above="@id/store_tabs"
+        />
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/store_tabs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/tab_border"
+        app:tabIndicatorColor="#FFFFFF"
+        app:tabTextColor="@color/icon_disable"
+        app:tabSelectedTextColor="@color/black"
+        app:tabMode="fixed"
+        app:tabGravity="fill" />
+
+
+</RelativeLayout>
