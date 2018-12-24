@@ -7,10 +7,41 @@
     tools:context=".activities.StoreActivity">
 
 
-    <View
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:id="@+id/address_view" />
+        android:layout_height="54dp"
+        android:id="@+id/address_view">
+
+        <ImageView
+            android:layout_width="46dp"
+            android:layout_height="46dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            android:layout_marginEnd="6dp"
+            android:id="@+id/user_profile"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentEnd="true"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/delivery_location"
+            android:text="Delivery Location"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="4dp"
+            android:textSize="13sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            android:layout_below="@id/delivery_location"
+            android:id="@+id/delivery_address"
+            android:textSize="16sp"/>
+
+    </RelativeLayout>
 
     <FrameLayout
         android:layout_width="match_parent"

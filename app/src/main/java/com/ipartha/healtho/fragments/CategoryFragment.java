@@ -33,8 +33,7 @@ public class CategoryFragment extends Fragment {
     private ImageView mBannerImageView;
     private Timer mBannerSlideTimer;
     private int mBannerImgIdx = 0;
-    private final int[] mBannerImageIds = {R.drawable.banner1, R.drawable.banner2, R.drawable.banner3,
-                                            R.drawable.banner4, R.drawable.banner5};
+    private final int[] mBannerImageIds = {R.drawable.banner1, R.drawable.banner2, R.drawable.banner3};
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -62,6 +61,7 @@ public class CategoryFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        mBannerSlideTimer = new Timer();
         mCategoryAdapter = new CategoryAdapter(mContext);
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(mContext, 2);
         mCategoryRecyclerView.setLayoutManager(layoutManager);
@@ -99,6 +99,13 @@ public class CategoryFragment extends Fragment {
         super.onDetach();
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        mBannerSlideTimer.cancel();
+        mBannerUpdateHandler.removeMessages(1);
+    }
+
     private void initViews(View view) {
         mCategoryRecyclerView = view.findViewById(R.id.category_recycler_view);
         mBannerImageView = view.findViewById(R.id.banner_image);
@@ -108,7 +115,6 @@ public class CategoryFragment extends Fragment {
                 .centerCrop()
                 .into(mBannerImageView);
 
-        mBannerSlideTimer = new Timer();
     }
 
     public Handler mBannerUpdateHandler = new Handler(Looper.getMainLooper()) {
@@ -122,7 +128,7 @@ public class CategoryFragment extends Fragment {
 
         if (mContext != null) {
             mBannerImgIdx++;
-            if (mBannerImgIdx >= 5) {
+            if (mBannerImgIdx >= 3) {
                 mBannerImgIdx = 0;
             }
             GlideApp.with(mContext)

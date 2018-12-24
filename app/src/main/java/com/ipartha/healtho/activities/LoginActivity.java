@@ -3,13 +3,16 @@ package com.ipartha.healtho.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.ipartha.healtho.R;
 import com.ipartha.healtho.utils.AlertMsg;
 import com.facebook.AccessToken;
@@ -20,23 +23,19 @@ import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
-import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+import com.ipartha.healtho.utils.Utils;
+
 
 import java.util.Arrays;
 
@@ -46,9 +45,9 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private Context context = LoginActivity.this;
     private final String TAG = LoginActivity.class.getSimpleName();
 
-
     CallbackManager mCallbackManager;
     GoogleSignInClient mGoogleSignInClient;
+    private String mSignInAccountType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,7 +124,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         super.onStart();
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
         if (account != null) {
-            startUserActivity();
+            startUserActivity(account);
         }
     }
 
@@ -165,7 +164,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
-            startUserActivity();
+            startUserActivity(account);
         } catch (ApiException e) {
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
@@ -181,11 +180,16 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     }
 
 
-    private void startUserActivity() {
+    private void startUserActivity(GoogleSignInAccount account) {
+        mSignInAccountType = "Google";
         Intent intent = new Intent(getContext(), StoreActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("Photo_Uri", account.getPhotoUrl());
+        bundle.putString("Account_Type", mSignInAccountType);
+        intent.putExtra("Key_Bundle", bundle);
+        Utils.getInstance().setGoogleSignInClient(mGoogleSignInClient);
         startActivity(intent);
     }
-
 
 }
 
