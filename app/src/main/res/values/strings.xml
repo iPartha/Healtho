@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">My Grocery</string>
     <string name="alert_msg_title">My Grocery</string>
-    <string name="facebook_app_id">363912467499376</string>
+    <string name="facebook_app_id">2180308678853076</string>
+    <string name="fb_login_protocol_scheme">fb363912467499376</string>
     <string name="title_activity_store">StoreActivity</string>
 
     <!-- TODO: Remove or change this placeholder text -->

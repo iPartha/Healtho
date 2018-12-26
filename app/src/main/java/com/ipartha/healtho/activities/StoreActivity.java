@@ -27,6 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.request.RequestOptions;
+import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -103,9 +104,15 @@ public class StoreActivity extends AppCompatActivity {
             Bundle bundle = getIntent().getBundleExtra("Key_Bundle");
             if (bundle != null) {
                 String accountType = bundle.getString("Account_Type");
-                if (!TextUtils.isEmpty(accountType) && accountType.equalsIgnoreCase("Google")) {
-                    googleSignOut();
+                if (!TextUtils.isEmpty(accountType)) {
+                    if (accountType.equalsIgnoreCase("Google")) {
+                        googleSignOut();
+                    } else if (accountType.equalsIgnoreCase("Facebook")) {
+                        LoginManager.getInstance().logOut();
+                        finish();
+                    }
                 }
+
             }
         }
         return true;
@@ -293,15 +300,31 @@ public class StoreActivity extends AppCompatActivity {
         if (intent != null) {
             Bundle bundle = intent.getBundleExtra("Key_Bundle");
             if (bundle != null) {
-                Uri photoUri = bundle.getParcelable("Photo_Uri");
-                if (photoUri != null) {
-                    GlideApp.with(this)
-                            .load(photoUri)
-                            .placeholder(R.drawable.user)
-                            .override(mUserImageView.getWidth(), mUserImageView.getHeight())
-                            .apply(RequestOptions.circleCropTransform())
-                            .into(mUserImageView);
+                String accountType = bundle.getString("Account_Type");
+                if (!TextUtils.isEmpty(accountType)) {
+                    if (accountType.equalsIgnoreCase("Google")) {
+                        Uri photoUri = bundle.getParcelable("Photo_Uri");
+                        if (photoUri != null) {
+                            GlideApp.with(this)
+                                    .load(photoUri)
+                                    .placeholder(R.drawable.user)
+                                    .override(mUserImageView.getWidth(), mUserImageView.getHeight())
+                                    .apply(RequestOptions.circleCropTransform())
+                                    .into(mUserImageView);
+                        }
+                    } else if (accountType.equalsIgnoreCase("Facebook")) {
+                        String userID = bundle.getString("FB_USERID");
+                        if (!TextUtils.isEmpty(userID)) {
+                            GlideApp.with(this)
+                                    .load("https://graph.facebook.com/" + userID + "/picture?type=large")
+                                    .placeholder(R.drawable.user)
+                                    .override(mUserImageView.getWidth(), mUserImageView.getHeight())
+                                    .apply(RequestOptions.circleCropTransform())
+                                    .into(mUserImageView);
+                        }
+                    }
                 }
+
             }
         }
 
