@@ -196,7 +196,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         intent.putExtra("Key_Bundle", bundle);
         startActivity(intent);
     }
-
 }
 
 

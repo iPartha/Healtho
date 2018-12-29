@@ -16,16 +16,23 @@ import com.ipartha.healtho.R;
 import com.ipartha.healtho.adapter.CategoryAdapter;
 import com.ipartha.healtho.adapter.ProductAdapter;
 import com.ipartha.healtho.sdk.DownloadTaskListener;
+import com.ipartha.healtho.sdk.OnItemClickListener;
+import com.ipartha.healtho.sdk.ProductCart;
+import com.ipartha.healtho.sdk.ProductMenu;
 import com.ipartha.healtho.sdk.ProductMenuList;
 import com.ipartha.healtho.sdk.DownloadTask;
 
-public class ProductListFragment extends Fragment implements DownloadTaskListener {
+import java.util.HashMap;
+import java.util.Map;
+
+public class ProductListFragment extends Fragment implements DownloadTaskListener, OnItemClickListener {
 
     private Context mContext;
     private TextView mProductTitleView;
     private TextView mProductCountView;
     private RecyclerView mProductListView;
     private ProductAdapter mProductAdapter;
+    private Map<String, ProductCart> mProductCartMap = new HashMap<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -62,7 +69,7 @@ public class ProductListFragment extends Fragment implements DownloadTaskListene
         mProductCountView = view.findViewById(R.id.product_count);
         mProductListView = view.findViewById(R.id.product_list_recycler_view);
 
-        mProductAdapter = new ProductAdapter(mContext, imageId);
+        mProductAdapter = new ProductAdapter(mContext, imageId, this);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(mContext);
         mProductListView.setLayoutManager(layoutManager);
         mProductListView.setItemAnimator(new DefaultItemAnimator());
@@ -81,6 +88,7 @@ public class ProductListFragment extends Fragment implements DownloadTaskListene
     @Override
     public void onSuccess(Object object) {
         ProductMenuList productMenuList = (ProductMenuList)object;
+        mProductAdapter.setProductCartMap(mProductCartMap);
         mProductAdapter.setProductMenuList(productMenuList.getProductMenuList());
         mProductTitleView.setText(productMenuList.getProductTitle());
         mProductCountView.setText(productMenuList.getProductMenuList().size()+ " products");
@@ -88,6 +96,40 @@ public class ProductListFragment extends Fragment implements DownloadTaskListene
 
     @Override
     public void onFailure(String errMsg) {
+
+    }
+
+    @Override
+    public void onItemClick(int position, boolean isAdd) {
+
+        int count = 0;
+        ProductCart cart;
+        ProductMenu productMenu = mProductAdapter.getProductMenuList().get(position);
+
+        if (isAdd) {
+            if (!mProductCartMap.containsKey(productMenu.getProductName())) {
+                cart = new ProductCart(0, productMenu);
+                mProductCartMap.put(productMenu.getProductName(), cart);
+            }
+            cart = mProductCartMap.get(productMenu.getProductName());
+            if (cart != null) {
+                count = cart.getProductCount() + 1;
+                cart.setProductCount(count);
+            }
+        } else {
+
+            if (mProductCartMap.containsKey(productMenu.getProductName())) {
+                cart = mProductCartMap.get(productMenu.getProductName());
+                if (cart != null) {
+                    count = cart.getProductCount() - 1;
+                    cart.setProductCount(count);
+                    if (count == 0) {
+                        mProductCartMap.remove(productMenu.getProductName());
+                    }
+                }
+            }
+
+        }
 
     }
 }

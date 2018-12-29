@@ -18,6 +18,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/product_name"
+        android:textSize="15sp"
         android:layout_marginStart="10dp"
         app:layout_constraintLeft_toRightOf="@id/product_image"/>
 
@@ -25,7 +26,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/product_quantity"
-        android:textSize="14sp"
+        android:textSize="15sp"
         android:layout_marginStart="10dp"
         app:layout_constraintLeft_toRightOf="@id/product_image"
         app:layout_constraintTop_toBottomOf="@id/product_name"/>
@@ -35,9 +36,32 @@
         android:layout_height="wrap_content"
         android:id="@+id/product_price"
         android:textColor="#000000"
-        android:textSize="14sp"
+        android:textSize="15sp"
         android:layout_marginStart="10dp"
         app:layout_constraintLeft_toRightOf="@id/product_image"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <TextView
+        android:id="@+id/add_product"
+        style="@style/ProductManageStyle"
+        android:text="+"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <TextView
+        android:id="@+id/purchase_count"
+        style="@style/ProductManageStyle"
+        android:text="0"
+        android:layout_marginEnd="7dp"
+        app:layout_constraintRight_toLeftOf="@id/add_product"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <TextView
+        android:id="@+id/remove_product"
+        style="@style/ProductManageStyle"
+        android:text="-"
+        android:layout_marginEnd="7dp"
+        app:layout_constraintRight_toLeftOf="@id/purchase_count"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
 </android.support.constraint.ConstraintLayout>
