@@ -73,9 +73,9 @@ public class CategoryFragment extends Fragment {
         List<CategoryMenu> categoryMenus = new ArrayList<>();
 
         categoryMenus.add(new CategoryMenu("100", "Fruits & Vegetables", R.drawable.fruits,
-                "/b/5c26d79f8c05c52ebad06649"));
+                "/b/5c26d79f8c05c52ebad06649/2"));
         categoryMenus.add(new CategoryMenu("101", "Dairy & Eggs", R.drawable.dairy,
-                "/b/5c26d79f8c05c52ebad06649"));
+                "/b/5c274d8a8c05c52ebad09af8"));
         categoryMenus.add(new CategoryMenu("102", "Personal Care", R.drawable.personal_care,
                 "/b/5c26d79f8c05c52ebad06649"));
         categoryMenus.add(new CategoryMenu("103", "Beverages", R.drawable.beverages,

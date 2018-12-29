@@ -185,6 +185,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         if (account != null) {
             mSignInAccountType = "Google";
             bundle.putParcelable("Photo_Uri", account.getPhotoUrl());
+            bundle.putString("Profile_Name", account.getDisplayName());
             bundle.putString("Account_Type", mSignInAccountType);
             Utils.getInstance().setGoogleSignInClient(mGoogleSignInClient);
         } else {

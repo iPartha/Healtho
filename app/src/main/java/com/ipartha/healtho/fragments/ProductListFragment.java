@@ -51,12 +51,18 @@ public class ProductListFragment extends Fragment implements DownloadTaskListene
     }
 
     private void initViews(View view) {
-        Bundle bundle =getArguments();
+        Bundle bundle = getArguments();
+        String url = null;
+        int imageId = 0;
+        if (bundle != null) {
+            url = bundle.getString("CATEGORY_ID");
+            imageId = bundle.getInt("CATEGORY_IMG_ID");
+        }
         mProductTitleView = view.findViewById(R.id.category_title);
         mProductCountView = view.findViewById(R.id.product_count);
         mProductListView = view.findViewById(R.id.product_list_recycler_view);
 
-        mProductAdapter = new ProductAdapter(mContext);
+        mProductAdapter = new ProductAdapter(mContext, imageId);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(mContext);
         mProductListView.setLayoutManager(layoutManager);
         mProductListView.setItemAnimator(new DefaultItemAnimator());
@@ -65,8 +71,7 @@ public class ProductListFragment extends Fragment implements DownloadTaskListene
         CategoryItemDecoration decoration = new CategoryItemDecoration(1, 20, false);
         mProductListView.addItemDecoration(decoration);
 
-        if (bundle != null) {
-            String url = bundle.getString("CATEGORY_ID");
+       if (url != null){
             DownloadTask downloadTask = new DownloadTask(url, this);
             downloadTask.execute();
         }

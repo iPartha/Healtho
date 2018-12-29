@@ -85,6 +85,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
             Bundle bundle = new Bundle();
             int pos = getAdapterPosition();
             bundle.putString("CATEGORY_ID", mCategoryList.get(pos).getProductURL());
+            bundle.putInt("CATEGORY_IMG_ID", mCategoryList.get(pos).getCategoryImageURI());
             fragment.setArguments(bundle);
             FragmentTransaction transaction = ((AppCompatActivity)mContext).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment);
             transaction.addToBackStack(null);

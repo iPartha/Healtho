@@ -76,6 +76,8 @@ public class StoreActivity extends AppCompatActivity {
     private final int REQUEST_LOCATION_PERMISSION = 100;
     private final static String TAG = StoreActivity.class.getSimpleName();
     private CircleImageView mUserImageView;
+    private CircleImageView mDrawerProfileView;
+    private TextView mProfileName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +86,8 @@ public class StoreActivity extends AppCompatActivity {
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         mUserImageView = findViewById(R.id.user_profile);
+        mDrawerProfileView = findViewById(R.id.drawer_profile_image);
+        mProfileName = findViewById(R.id.drawer_profile_name);
 
         mStoreTabLayout = findViewById(R.id.store_tabs);
         mStoreTabLayout.addOnTabSelectedListener(mTabSelectedListener);
@@ -304,9 +308,16 @@ public class StoreActivity extends AppCompatActivity {
                                     .load(photoUri)
                                     .placeholder(R.drawable.user)
                                     .override(mUserImageView.getWidth(), mUserImageView.getHeight())
-                                    .apply(RequestOptions.circleCropTransform())
                                     .into(mUserImageView);
+
+                            GlideApp.with(this)
+                                    .load(photoUri)
+                                    .placeholder(R.drawable.user)
+                                    .override(mDrawerProfileView.getWidth(), mDrawerProfileView.getHeight())
+                                    .into(mDrawerProfileView);
+
                         }
+
                     } else if (accountType.equalsIgnoreCase("Facebook")) {
                         String userID = bundle.getString("FB_USERID");
                         if (!TextUtils.isEmpty(userID)) {
@@ -315,8 +326,19 @@ public class StoreActivity extends AppCompatActivity {
                                     .placeholder(R.drawable.user)
                                     .override(mUserImageView.getWidth(), mUserImageView.getHeight())
                                     .into(mUserImageView);
+
+                            GlideApp.with(this)
+                                    .load("https://graph.facebook.com/" + userID + "/picture?type=large")
+                                    .placeholder(R.drawable.user)
+                                    .override(mDrawerProfileView.getWidth(), mDrawerProfileView.getHeight())
+                                    .into(mDrawerProfileView);
                         }
                     }
+                }
+
+                String profileName = bundle.getString("Profile_Name");
+                if (!TextUtils.isEmpty(profileName)) {
+                    mProfileName.setText(profileName);
                 }
 
             }

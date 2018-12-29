@@ -22,13 +22,15 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductMenuViewHolder> {
 
-    List<ProductMenu> mProductMenuList;
-    Context mContext;
+    private List<ProductMenu> mProductMenuList;
+    private Context mContext;
+    private int mDefaultImageId;
     private static DecimalFormat priceFormat = new DecimalFormat();
     private static DecimalFormat quantityFormat = new DecimalFormat();
 
-    public ProductAdapter(Context context) {
+    public ProductAdapter(Context context, int imageId) {
         mContext  = context;
+        mDefaultImageId = imageId;
         priceFormat.setMinimumFractionDigits(2);
         priceFormat.setMinimumIntegerDigits(2);
         quantityFormat.setMaximumFractionDigits(2);
@@ -48,14 +50,14 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductM
 
         productMenuViewHolder.mProductQuantity.setText(String.valueOf(
                 quantityFormat.format(mProductMenuList.get(position).getProductQuantity()))
-                + mProductMenuList.get(position).getProductMeasure());
+                +" "+ mProductMenuList.get(position).getProductMeasure());
 
         productMenuViewHolder.mProductPrice.setText("Rs. "+String.valueOf(
                 priceFormat.format(mProductMenuList.get(position).getProductPrice())));
 
         GlideApp.with(mContext)
                 .load(mProductMenuList.get(position).getImageURL())
-                .error(R.drawable.fruits)
+                .error(mDefaultImageId)
                 .override(productMenuViewHolder.mProductImage.getWidth(), productMenuViewHolder.mProductImage.getHeight())
                 .into(productMenuViewHolder.mProductImage);
     }
