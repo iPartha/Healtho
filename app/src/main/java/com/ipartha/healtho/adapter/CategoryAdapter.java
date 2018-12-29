@@ -1,8 +1,11 @@
 package com.ipartha.healtho.adapter;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +16,8 @@ import android.widget.TextView;
 import com.ipartha.healtho.R;
 
 
-import com.ipartha.healtho.CategoryMenu;
+import com.ipartha.healtho.sdk.CategoryMenu;
+import com.ipartha.healtho.fragments.ProductListFragment;
 import com.ipartha.healtho.utils.GlideApp;
 
 import java.util.List;
@@ -47,10 +51,6 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
     }
 
-    public List<CategoryMenu> getWorkoutMenuList() {
-        return mCategoryList;
-    }
-
     public void setCategoryMenuList(List<CategoryMenu> categoryAdapter) {
         this.mCategoryList = categoryAdapter;
     }
@@ -81,6 +81,14 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
         @Override
         public void onClick(View v) {
+            Fragment fragment = new ProductListFragment();
+            Bundle bundle = new Bundle();
+            int pos = getAdapterPosition();
+            bundle.putString("CATEGORY_ID", mCategoryList.get(pos).getProductURL());
+            fragment.setArguments(bundle);
+            FragmentTransaction transaction = ((AppCompatActivity)mContext).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
 
         }
     }

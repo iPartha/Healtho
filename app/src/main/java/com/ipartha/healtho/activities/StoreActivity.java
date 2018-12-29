@@ -14,15 +14,19 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.ContextMenu;
+import android.view.Gravity;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,12 +40,15 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.ipartha.healtho.R;
+import com.ipartha.healtho.adapter.DrawerItemAdapter;
 import com.ipartha.healtho.fragments.CategoryFragment;
 import com.ipartha.healtho.utils.GlideApp;
 import com.ipartha.healtho.utils.Utils;
 
 import java.util.List;
 import java.util.Locale;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class StoreActivity extends AppCompatActivity {
 
@@ -60,12 +67,15 @@ public class StoreActivity extends AppCompatActivity {
             "Cart"
     };
 
+    private DrawerLayout mDrawerLayout;
+    private ListView mDrawerList;
+
     private int mCurrentTabPosition = 0;
     private FusedLocationProviderClient mFusedLocationClient;
 
     private final int REQUEST_LOCATION_PERMISSION = 100;
     private final static String TAG = StoreActivity.class.getSimpleName();
-    private ImageView mUserImageView;
+    private CircleImageView mUserImageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,44 +88,29 @@ public class StoreActivity extends AppCompatActivity {
         mStoreTabLayout = findViewById(R.id.store_tabs);
         mStoreTabLayout.addOnTabSelectedListener(mTabSelectedListener);
 
+        mDrawerLayout = findViewById(R.id.drawer_layout);
+        mDrawerList = (ListView) findViewById(R.id.left_drawer);
+
+        String[] mNavigationDrawerItemTitles = getResources().getStringArray(R.array.navigation_drawer_items_array);
+        DrawerItemAdapter adapter = new DrawerItemAdapter(this, R.layout.drawer_item_row, mNavigationDrawerItemTitles);
+        mDrawerList.setAdapter(adapter);
+        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+
         setupTabIcons();
         getIntentData();
-        registerForContextMenu(mUserImageView);
+        mUserImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDrawerLayout.openDrawer(Gravity.START);
+            }
+        });
+
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         isLocationPermissionGranted();
-    }
-
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo)
-    {
-        super.onCreateContextMenu(menu, v, menuInfo);
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.user_menu, menu);
-    }
-
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-
-        if (item.getItemId() == R.id.signout) {
-            Bundle bundle = getIntent().getBundleExtra("Key_Bundle");
-            if (bundle != null) {
-                String accountType = bundle.getString("Account_Type");
-                if (!TextUtils.isEmpty(accountType)) {
-                    if (accountType.equalsIgnoreCase("Google")) {
-                        googleSignOut();
-                    } else if (accountType.equalsIgnoreCase("Facebook")) {
-                        LoginManager.getInstance().logOut();
-                        finish();
-                    }
-                }
-
-            }
-        }
-        return true;
     }
 
     private void setupTabIcons() {
@@ -319,7 +314,6 @@ public class StoreActivity extends AppCompatActivity {
                                     .load("https://graph.facebook.com/" + userID + "/picture?type=large")
                                     .placeholder(R.drawable.user)
                                     .override(mUserImageView.getWidth(), mUserImageView.getHeight())
-                                    .apply(RequestOptions.circleCropTransform())
                                     .into(mUserImageView);
                         }
                     }
@@ -341,6 +335,28 @@ public class StoreActivity extends AppCompatActivity {
                             finish();
                         }
                     });
+        }
+    }
+
+    private class DrawerItemClickListener implements ListView.OnItemClickListener {
+
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            if (position == 2) {
+                Bundle bundle = getIntent().getBundleExtra("Key_Bundle");
+                if (bundle != null) {
+                    String accountType = bundle.getString("Account_Type");
+                    if (!TextUtils.isEmpty(accountType)) {
+                        if (accountType.equalsIgnoreCase("Google")) {
+                            googleSignOut();
+                        } else if (accountType.equalsIgnoreCase("Facebook")) {
+                            LoginManager.getInstance().logOut();
+                            finish();
+                        }
+                    }
+
+                }
+            }
         }
     }
 

@@ -1,6 +1,5 @@
 package com.ipartha.healtho.fragments;
 
-import android.app.Notification;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,7 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.ipartha.healtho.CategoryMenu;
+import com.ipartha.healtho.sdk.CategoryMenu;
 import com.ipartha.healtho.R;
 import com.ipartha.healtho.adapter.CategoryAdapter;
 import com.ipartha.healtho.utils.GlideApp;
@@ -73,14 +72,22 @@ public class CategoryFragment extends Fragment {
 
         List<CategoryMenu> categoryMenus = new ArrayList<>();
 
-        categoryMenus.add(new CategoryMenu("100", "Fruits & Vegetables", R.drawable.fruits));
-        categoryMenus.add(new CategoryMenu("101", "Dairy & Eggs", R.drawable.dairy));
-        categoryMenus.add(new CategoryMenu("102", "Personal Care", R.drawable.personal_care));
-        categoryMenus.add(new CategoryMenu("103", "Beverages", R.drawable.beverages));
-        categoryMenus.add(new CategoryMenu("100", "Foodgrains", R.drawable.foodgrain));
-        categoryMenus.add(new CategoryMenu("101", "Masala & Spices", R.drawable.masala));
-        categoryMenus.add(new CategoryMenu("102", "Cleaning & Household", R.drawable.cleaning));
-        categoryMenus.add(new CategoryMenu("103", "Snacks", R.drawable.cake));
+        categoryMenus.add(new CategoryMenu("100", "Fruits & Vegetables", R.drawable.fruits,
+                "/b/5c26d79f8c05c52ebad06649"));
+        categoryMenus.add(new CategoryMenu("101", "Dairy & Eggs", R.drawable.dairy,
+                "/b/5c26d79f8c05c52ebad06649"));
+        categoryMenus.add(new CategoryMenu("102", "Personal Care", R.drawable.personal_care,
+                "/b/5c26d79f8c05c52ebad06649"));
+        categoryMenus.add(new CategoryMenu("103", "Beverages", R.drawable.beverages,
+                "/b/5c26d79f8c05c52ebad06649"));
+        categoryMenus.add(new CategoryMenu("104", "Food grains", R.drawable.foodgrain,
+                "/b/5c26d79f8c05c52ebad06649"));
+        categoryMenus.add(new CategoryMenu("105", "Masala & Spices", R.drawable.masala,
+                "/b/5c26d79f8c05c52ebad06649"));
+        categoryMenus.add(new CategoryMenu("106", "Cleaning & Household", R.drawable.cleaning,
+                "/b/5c26d79f8c05c52ebad06649"));
+        categoryMenus.add(new CategoryMenu("107", "Snacks", R.drawable.cake,
+                "/b/5c26d79f8c05c52ebad06649"));
 
         mCategoryAdapter.setCategoryMenuList(categoryMenus);
 

@@ -1,68 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/drawer_layout"
     tools:context=".activities.StoreActivity">
-
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="54dp"
-        android:id="@+id/address_view">
-
-        <ImageView
-            android:layout_width="46dp"
-            android:layout_height="46dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="4dp"
-            android:layout_marginEnd="6dp"
-            android:id="@+id/user_profile"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentEnd="true"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/delivery_location"
-            android:text="Delivery Location"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="4dp"
-            android:textSize="13sp"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="4dp"
-            android:layout_below="@id/delivery_location"
-            android:id="@+id/delivery_address"
-            android:textSize="16sp"/>
-
-    </RelativeLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/fragment_container"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:layout_below="@id/address_view"
-        android:layout_above="@id/store_tabs"
-        />
+        android:id="@+id/main">
 
-    <android.support.design.widget.TabLayout
-        android:id="@+id/store_tabs"
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:id="@+id/address_view">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="46dp"
+                    android:layout_height="46dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="4dp"
+                    android:layout_marginStart="8dp"
+                    android:id="@+id/user_profile" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/delivery_location"
+                    android:text="Delivery Location"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginTop="4dp"
+                    android:textSize="13sp"
+                    android:layout_alignParentEnd="true"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="4dp"
+                    android:layout_below="@id/delivery_location"
+                    android:id="@+id/delivery_address"
+                    android:textSize="16sp"
+                    android:layout_alignParentEnd="true"/>
+
+            </RelativeLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/fragment_container"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                android:layout_below="@id/address_view"
+                android:layout_above="@id/store_tabs"
+                />
+
+            <android.support.design.widget.TabLayout
+                android:id="@+id/store_tabs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/tab_border"
+                app:tabIndicatorColor="#FFFFFF"
+                app:tabTextColor="@color/icon_disable"
+                app:tabSelectedTextColor="@color/black"
+                app:tabMode="fixed"
+                app:tabGravity="fill" />
+        </RelativeLayout>
+    </FrameLayout>
+
+    <ListView
+        android:id="@+id/left_drawer"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="@drawable/tab_border"
-        app:tabIndicatorColor="#FFFFFF"
-        app:tabTextColor="@color/icon_disable"
-        app:tabSelectedTextColor="@color/black"
-        app:tabMode="fixed"
-        app:tabGravity="fill" />
+        android:layout_height="match_parent"
+        android:layout_marginEnd="20dp"
+        android:layout_gravity="start"
+        android:background="#FFFFFF"
+        android:choiceMode="singleChoice" />
 
 
-</RelativeLayout>
+</android.support.v4.widget.DrawerLayout>
